@@ -3,151 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coffee & Keys Real Estate</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <title>Properties for Rent</title>
     <style>
-        .mobile-menu {
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
+        @font-face {
+            font-family: 'Calibri';
+            src: local('Calibri');
+            font-weight: normal;
         }
-        .mobile-menu.active {
-            transform: translateX(0);
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Calibri, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-weight: normal;
+            background-color: #1a1a1a;
+            color: white;
+            min-height: 100vh;
         }
-        .property-slide {
-            transition: transform 0.5s ease;
+
+        .container {
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: normal;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            color: #ffffff;
+            font-family: Calibri, serif;
+        }
+
+        .scroll-container {
+            overflow-x: hidden;
+            padding-bottom: 1.5rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .property-grid {
+            display: flex;
+            gap: 2rem;
+            padding: 0 1rem;
+            min-width: max-content;
+            transition: transform 1s ease;
+        }
+
+        .property-card {
+            width: 24rem;
+            flex: none;
+            text-align: center;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 16rem;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+        }
+
+        .divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 1rem auto;
+            width: 100%;
+        }
+
+        .property-type {
+            font-size: 1.2rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .property-location {
+            color: #ffffff;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .property-details {
+            color: #ffffff;
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .accessibility-info {
+            color: #ffffff;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+            font-weight: normal;
         }
     </style>
-<!-- Brevo Conversations {literal} -->
-<script>
-    (function(d, w, c) {
-        w.BrevoConversationsID = '674f278be50bd9c16501f9dd';
-        w[c] = w[c] || function() {
-            (w[c].q = w[c].q || []).push(arguments);
-        };
-        var s = d.createElement('script');
-        s.async = true;
-        s.src = 'https://conversations-widget.brevo.com/brevo-conversations.js';
-        if (d.head) d.head.appendChild(s);
-    })(document, window, 'BrevoConversations');
-</script>
-<!-- /Brevo Conversations {/literal} -->
 </head>
-<body class="bg-white">
-    <!-- Navigation -->
-    <nav class="w-full bg-white z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="flex justify-end items-center py-4">
-                <!-- Mobile Menu Button -->
-                <button class="md:hidden text-gray-800 focus:outline-none" id="menuButton">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-10">
-                    <a href="#services" class="text-gray-800 hover:text-black text-base">How We Help</a>
-                    <a href="#featured" class="text-gray-800 hover:text-black text-base">Properties</a>
-                    <a href="#contact" class="text-gray-800 hover:text-black text-base">Talk to Us</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div class="mobile-menu fixed inset-y-0 left-0 w-64 bg-white shadow-lg p-6 hidden md:hidden" id="mobileMenu">
-            <button class="absolute top-4 right-4 text-gray-600" id="closeMenu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-            <div class="flex flex-col space-y-4 mt-8">
-                <a href="#services" class="text-gray-800 hover:text-black text-base">How We Help</a>
-                <a href="#featured" class="text-gray-800 hover:text-black text-base">Properties</a>
-                <a href="#contact" class="text-gray-800 hover:text-black text-base">Talk to Us</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Banner -->
-    <div class="relative w-full h-[400px] md:h-[500px]">
-        <img 
-            src="https://cdn.convrrt.com/apps/sendinblue/8466921/77d6d45d-0419-4f23-b589-55a3715050e5.jpeg" 
-            alt="Coffee & Keys Real Estate Services" 
-            class="w-full h-full object-cover"
-        />
-    </div>
-
-    <!-- Services Section -->
-    <section id="services" class="py-12 md:py-16 px-4 sm:px-6 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-serif mb-8 md:mb-12 text-center">What Are You Looking For?</h2>
-            <div class="grid md:grid-cols-3 gap-6 md:gap-8">
-                <!-- Buy/Rent Service -->
-                <div class="space-y-3 bg-white p-4 md:p-5 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-semibold">Want to Buy or Rent?</h3>
-                    <p class="text-sm md:text-base text-gray-600">Tell us your budget and must-haves - we'll find places that match and guide you through viewings to move-in day. Plus, we'll handle all the paperwork!</p>
-                    <ul class="text-sm md:text-base text-gray-600 space-y-2 pt-3">
-                        <li>✓ Free property matchmaking</li>
-                        <li>✓ Scheduled viewings at your convenience</li>
-                        <li>✓ Price negotiation support</li>
-                        <li>✓ Move-in assistance</li>
-                    </ul>
-                </div>
-
-                <!-- Sell/Lease Service -->
-                <div class="space-y-3 bg-white p-4 md:p-5 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-semibold">Ready to Sell or Rent Out?</h3>
-                    <p class="text-sm md:text-base text-gray-600">We'll help price your property right, find good buyers or tenants, and get you the best deal possible. From listing to turnover, we've got your back.</p>
-                    <ul class="text-sm md:text-base text-gray-600 space-y-2 pt-3">
-                        <li>✓ Free property valuation</li>
-                        <li>✓ Professional photos and listing</li>
-                        <li>✓ Qualified buyer screening</li>
-                        <li>✓ Paperwork handling</li>
-                    </ul>
-                </div>
-
-                <!-- New Projects Service -->
-                <div class="space-y-3 bg-white p-4 md:p-5 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-semibold">Looking at New Projects?</h3>
-                    <p class="text-sm md:text-base text-gray-600">Get first pick of new condos and developments, often with special pre-selling prices and payment plans. Perfect for home buyers or investors.</p>
-                    <ul class="text-sm md:text-base text-gray-600 space-y-2 pt-3">
-                        <li>✓ Early-bird prices and promos</li>
-                        <li>✓ Flexible payment options</li>
-                        <li>✓ Project updates and progress</li>
-                        <li>✓ Investment advice</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-   <!-- Featured Properties Section -->
-<section id="featured" class="py-12 md:py-16 px-4 sm:px-6">
-    <div class="max-w-7xl mx-auto">
-        <h2 class="text-xl md:text-2xl font-serif mb-8 md:mb-12 text-center">Check Out These Great Finds</h2>
-        <div class="relative overflow-hidden">
-            <!-- Property Slider - Will be populated from Google Sheets -->
-            <div class="flex flex-col md:flex-row transition-transform duration-500" id="propertySlider">
-                <!-- Loading state -->
-                <div class="flex justify-center items-center w-full">
-                    <p class="text-gray-500">Loading properties...</p>
-                </div>
-            </div>
-
-            <!-- Navigation Arrows - Desktop Only -->
-            <div class="hidden md:block">
-                <button onclick="slideProperties('prev')" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 focus:outline-none">←</button>
-                <button onclick="slideProperties('next')" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 bg-white p-3 rounded-full shadow-lg hover:bg-gray-50 focus:outline-none">→</button>
+<body>
+    <div class="container">
+        <h1>Properties for Rent</h1>
+        <div class="scroll-container">
+            <div class="property-grid" id="propertyGrid">
+                <div class="text-center w-full">Loading properties...</div>
             </div>
         </div>
     </div>
 
     <script>
-        // Property loading and display functionality
-        let currentSlide = 0;
+        let currentPosition = 0;
+        let properties = [];
+        let autoScrollInterval;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            loadProperties();
+        });
 
         async function loadProperties() {
-            const SHEET_ID = '1mzUT2S4m8hO5Ib1QFe_ombO93cfqC0zJH6D567MmNlc';
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`;
+            const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSvr7WG5UXsbz_i5hFLeuN5uXliGrNmmwXuraurDm6nMf-JZ-3b_34_En-0LidajhOVrnFuTP4UorNU/pub?gid=0&single=true&output=csv';
             
             try {
                 const response = await fetch(url);
@@ -155,15 +132,14 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const csvText = await response.text();
-                console.log('CSV Data:', csvText); // Debug log
-                const properties = parseCSV(csvText);
-                console.log('Parsed Properties:', properties); // Debug log
+                properties = parseCSV(csvText);
                 renderProperties(properties);
+                startAutoScroll();
             } catch (error) {
                 console.error('Error loading properties:', error);
-                document.getElementById('propertySlider').innerHTML = `
-                    <div class="flex justify-center items-center w-full">
-                        <p class="text-red-500">Unable to load properties. Error: ${error.message}</p>
+                document.getElementById('propertyGrid').innerHTML = `
+                    <div class="text-center w-full">
+                        <p style="color: #ff6b6b;">Unable to load properties. Please try again later.</p>
                     </div>
                 `;
             }
@@ -184,117 +160,56 @@
         }
 
         function renderProperties(properties) {
-  console.log('Rendering properties:', properties); // Log the entire properties array
-
-  const slider = document.getElementById('propertySlider');
-  slider.innerHTML = properties.map(property => {
-    console.log('Rendering property:', property); // Log each property object
-
-    // Check if property values are defined before using them in template literals
-    const title = property.title || 'N/A';
-    const price = property.price || 'N/A';
-    const feature1 = property.feature1 || 'N/A';
-    // ... and so on for other properties
-
-    return `
-  <div class="w-full md:w-1/3 flex-shrink-0 px-2 md:px-4 mb-6 md:mb-0">
-    <div class="bg-white p-4 md:p-5 rounded-lg shadow-sm border hover:shadow-md transition-shadow">
-      <div class="relative aspect-[4/3] mb-4 bg-gray-100 rounded overflow-hidden">
-        <img src="${property.imageUrl}" alt="${property.title}" class="w-full h-full object-cover" />
-        <span class="absolute top-3 right-3 bg-black text-white px-3 py-1 text-sm">
-          ${property.status}
-        </span>
-      </div>
-      <div class="space-y-2">
-        <h3 class="text-lg font-semibold">${property.title}</h3>
-        <p class="text-xl font-serif">${property.price}</p>
-        <div class="text-sm md:text-base text-gray-600 space-y-1">
-          <p>✓ ${property.feature1}</p>
-          <p>✓ ${property.feature2}</p>
-          <p>✓ ${property.feature3}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-`;
-  }).join('');
-}
-
-        function slideProperties(direction) {
-            const slider = document.getElementById('propertySlider');
-            const totalSlides = slider.children.length;
-            
-            if (direction === 'next') {
-                currentSlide = (currentSlide + 1) % totalSlides;
-            } else {
-                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-            }
-            
-            slider.style.transform = `translateX(-${currentSlide * 33.33}%)`;
+            const grid = document.getElementById('propertyGrid');
+            grid.innerHTML = properties.map(property => `
+                <div class="property-card">
+                    <img 
+                        src="${property['Image URL'] || '/api/placeholder/400/300'}"
+                        alt="${property.Type || 'Property'}"
+                        class="property-image"
+                        onerror="this.src='/api/placeholder/400/300'"
+                    >
+                    <div class="divider"></div>
+                    <h2 class="property-type">${property.Type || ''}</h2>
+                    <p class="property-location">${property.Location || ''}</p>
+                    <p class="property-details">
+                        ${property.Beds} ${property.Size ? '| ' + property.Size : ''}
+                    </p>
+                    ${property.Feature ? `<p class="property-details">${property.Feature}</p>` : ''}
+                    ${property.Details ? `<p class="accessibility-info">${property.Details}</p>` : ''}
+                    <div class="divider"></div>
+                </div>
+            `).join('');
         }
 
-        // Load properties when page loads
-        document.addEventListener('DOMContentLoaded', loadProperties);
+        function startAutoScroll() {
+            const grid = document.getElementById('propertyGrid');
+            const cardWidth = 400; // Width of card + gap
+            
+            autoScrollInterval = setInterval(() => {
+                currentPosition++;
+                if (currentPosition >= properties.length) {
+                    currentPosition = 0;
+                    grid.style.transition = 'none';
+                    grid.style.transform = 'translateX(0)';
+                    // Force reflow
+                    grid.offsetHeight;
+                    grid.style.transition = 'transform 1s ease';
+                } else {
+                    grid.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
+                }
+            }, 3000); // Change slides every 3 seconds
+
+            // Pause auto-scroll on hover
+            grid.addEventListener('mouseenter', () => {
+                clearInterval(autoScrollInterval);
+            });
+
+            // Resume auto-scroll when mouse leaves
+            grid.addEventListener('mouseleave', () => {
+                startAutoScroll();
+            });
+        }
     </script>
-</section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-12 md:py-16 px-4 sm:px-6 bg-gray-50">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-xl md:text-2xl font-serif mb-8 md:mb-12 text-center">Let's Make It Happen</h2>
-            <div class="max-w-xl mx-auto">
-                <form class="space-y-4 md:space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input type="text" placeholder="Your name" class="w-full p-3 text-sm md:text-base border rounded-md" />
-                        <input type="email" placeholder="Your email" class="w-full p-3 text-sm md:text-base border rounded-md" />
-                    </div>
-                    <select class="w-full p-3 text-sm md:text-base border rounded-md">
-                        <option value="" disabled selected>What can we help you with?</option>
-                        <option value="buying">I want to buy a place</option>
-                        <option value="renting">I want to rent a place</option>
-                        <option value="selling">I want to sell my property</option>
-                        <option value="leasing">I want to lease out my property</option>
-                        <option value="investing">I'm interested in new projects</option>
-                    </select>
-                    <textarea 
-                        placeholder="Tell us what you're looking for (budget, location, size, etc.)" 
-                        class="w-full p-3 text-sm md:text-base border rounded-md h-24 md:h-32"
-                    ></textarea>
-                    <button class="w-full bg-black text-white py-3 text-sm md:text-base font-semibold rounded-md hover:bg-gray-800 transition-colors">
-                        Let's Talk
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="py-8 md:py-12 px-4 sm:px-6 border-t">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-sm md:text-base text-gray-600">© 2024 Coffee & Keys Real Estate. Making property dreams happen.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('menuButton');
-            const closeButton = document.getElementById('closeMenu');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            menuButton?.addEventListener('click', () => {
-                mobileMenu.classList.remove('hidden');
-                setTimeout(() => {
-                    mobileMenu.classList.add('active');
-                }, 10);
-            });
-
-            closeButton?.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                setTimeout(() => {
-                    mobileMenu.classList.add('hidden');
-                }, 300);
-            });
-
-            // Property slider functionality
-            const slider = document.
+</body>
+</html>
