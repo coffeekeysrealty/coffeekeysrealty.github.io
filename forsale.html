@@ -57,6 +57,12 @@
             height: 16rem;
             object-fit: cover;
             margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+        
+        .property-image:hover {
+            opacity: 0.9;
         }
 
         .divider {
@@ -162,6 +168,7 @@
                         alt="${property.Type || 'Property'}"
                         class="property-image"
                         onerror="this.src='/api/placeholder/400/300'"
+                        onclick="window.open(this.src, '_blank')"
                     >
                     <div class="divider"></div>
                     <h2 class="property-type">${property.Type || ''}</h2>
@@ -192,7 +199,7 @@
                 } else {
                     grid.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
                 }
-            }, 3000); // Change slides every 3 seconds
+            }, 8000); // Change slides every 8 seconds
 
             // Pause auto-scroll on hover
             grid.addEventListener('mouseenter', () => {
