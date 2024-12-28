@@ -106,7 +106,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Properties for Rent</h1>
+        <h1>Properties for Sale</h1>
         <div class="scroll-container">
             <div class="property-grid" id="propertyGrid">
                 <div class="text-center w-full">Loading properties...</div>
@@ -198,7 +198,7 @@
                 } else {
                     grid.style.transform = `translateX(-${currentPosition * cardWidth}px)`;
                 }
-            }, 3000); // Change slides every 3 seconds
+            }, 10000); // Change slides every 3 seconds
 
             // Pause auto-scroll on hover
             grid.addEventListener('mouseenter', () => {
