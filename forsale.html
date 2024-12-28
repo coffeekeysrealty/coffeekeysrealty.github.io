@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Properties for Sale</title>
+    <title>Properties for Rent</title>
     <style>
         body {
             margin: 0;
@@ -86,17 +86,21 @@
             opacity: 0.9;
         }
 
-        .accessibility-info {
-            color: #ffffff;
-            font-size: 0.9rem;
+        .more-photos {
+            color: #4a9eff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
+        }
+
+        .more-photos:hover {
             opacity: 0.8;
-            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Properties for Sale</h1>
+        <h1>Properties for Rent</h1>
         <div class="scroll-container">
             <div class="property-grid" id="propertyGrid">
                 <div class="text-center w-full">Loading properties...</div>
@@ -166,7 +170,7 @@
                         ${property.Beds} ${property.Size ? '| ' + property.Size : ''}
                     </p>
                     ${property.Feature ? `<p class="property-details">${property.Feature}</p>` : ''}
-                    ${property.Details ? `<p class="accessibility-info">${property.Details}</p>` : ''}
+                    <a href="${property.Details || '#'}" target="_blank" class="more-photos">More photos</a>
                     <div class="divider"></div>
                 </div>
             `).join('');
