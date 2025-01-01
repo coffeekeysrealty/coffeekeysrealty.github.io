@@ -5,6 +5,16 @@ chat='true'>
 </script>
 <head>
     <title>Coffee & Keys Realty</title>
+        <script>
+        function isMobileDevice() {
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+        
+        if (isMobileDevice()) {
+            // Replace with your mobile URL
+            window.location.href = "https://m.coffeekeysrealty.com";
+        }
+    </script>
     <meta property="og:title" content="Coffee & Keys Realty">
     <meta property="og:description" content="Grounds for Your Next Move">
     <meta property="og:image" content="https://coffeekeysrealty.com/Meta.png">
