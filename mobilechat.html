@@ -88,35 +88,27 @@
         <!-- Chat widget will be embedded here -->
     </div>
 
-    <!-- Initialize the widget -->
-    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <!-- Freshworks Chat Widget Code -->
+    <script src='//fw-cdn.com/12333017/4778044.js' chat='true'></script>
     <script>
-        // Initialize the widget when the page loads
-        window.fcWidget.init({
-            token: "YOUR_TOKEN",
-            host: "https://wchat.freshchat.com"
-        });
+        // Define the widget configuration function
+        function fw_chat_widget() {
+            window.fcWidget.init({
+                token: "YOUR_TOKEN",
+                host: "https://wchat.freshchat.com"
+            });
 
-        // Wait for the widget to load
-        window.fcWidget.on("widget:loaded", function() {
-            // Set unique user id
             window.fcWidget.setExternalId("john.doe1987");
-            
-            // Set user name
             window.fcWidget.user.setFirstName("John");
-            
-            // Set user email
             window.fcWidget.user.setEmail("john.doe@gmail.com");
-            
-            // Set user properties
             window.fcWidget.user.setProperties({
                 cf_plan: "Pro",
                 cf_status: "Active"
             });
+        }
 
-            // Open the widget automatically (optional)
-            // window.fcWidget.open();
-        });
+        // Call the function when the page loads
+        fw_chat_widget();
 
         // Add event listener for mobile devices
         document.addEventListener('touchstart', function(event) {
