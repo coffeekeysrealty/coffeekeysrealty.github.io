@@ -48,7 +48,6 @@
             position: relative;
         }
 
-        /* Mobile-specific styles */
         @media screen and (max-width: 768px) {
             .header {
                 padding: 0.75rem;
@@ -64,7 +63,6 @@
             }
         }
 
-        /* Small mobile devices */
         @media screen and (max-width: 320px) {
             .header {
                 padding: 0.5rem;
@@ -76,7 +74,6 @@
             }
         }
 
-        /* Prevent any overflow issues */
         img {
             max-width: 100%;
             height: auto;
@@ -91,13 +88,17 @@
         <!-- Chat widget will be embedded here -->
     </div>
 
+    <!-- Initialize the widget -->
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
     <script>
-        function fw_chat_widget() {
-            window.fcWidget.init({
-                token: "YOUR_TOKEN",
-                host: "https://wchat.freshchat.com"
-            });
-            
+        // Initialize the widget when the page loads
+        window.fcWidget.init({
+            token: "YOUR_TOKEN",
+            host: "https://wchat.freshchat.com"
+        });
+
+        // Wait for the widget to load
+        window.fcWidget.on("widget:loaded", function() {
             // Set unique user id
             window.fcWidget.setExternalId("john.doe1987");
             
@@ -112,15 +113,17 @@
                 cf_plan: "Pro",
                 cf_status: "Active"
             });
-        }
 
-        // Add event listener for mobile devices to prevent zooming on input focus
+            // Open the widget automatically (optional)
+            // window.fcWidget.open();
+        });
+
+        // Add event listener for mobile devices
         document.addEventListener('touchstart', function(event) {
             if (event.touches.length > 1) {
                 event.preventDefault();
             }
         }, { passive: false });
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/freshchat-js-sdk/latest/freshchat.min.js"></script>
 </body>
 </html>
