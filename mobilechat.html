@@ -111,13 +111,46 @@
     <!-- Freshworks Chat Widget Code -->
     <script src='//fw-cdn.com/12333017/4778044.js' chat='true'></script>
     <script>
-        // Wait for the widget to load, then open it
-        window.fcWidget.on("widget:loaded", function() {
-            // Open the widget automatically after a short delay
-            setTimeout(function() {
-                window.fcWidget.open();
-            }, 1000); // 1 second delay
+        // Function to initialize and open the widget
+        function initializeWidget() {
+            if (window.fcWidget) {
+                // Try multiple methods to ensure the widget opens
+                try {
+                    window.fcWidget.open();
+                } catch(e) {
+                    console.log("First attempt failed, trying alternative method");
+                }
+
+                try {
+                    window.fcWidget.show();
+                } catch(e) {
+                    console.log("Second attempt failed, trying alternative method");
+                }
+
+                try {
+                    window.fcWidget.isOpen = function() { return true; };
+                } catch(e) {
+                    console.log("Third attempt failed");
+                }
+            } else {
+                // If widget isn't loaded yet, try again in 1 second
+                setTimeout(initializeWidget, 1000);
+            }
+        }
+
+        // Start attempting to open the widget after page load
+        window.addEventListener('load', function() {
+            setTimeout(initializeWidget, 2000); // Wait 2 seconds after page load
         });
+
+        // Also try when the widget is loaded
+        if (window.fcWidget) {
+            window.fcWidget.on("widget:loaded", function() {
+                setTimeout(function() {
+                    initializeWidget();
+                }, 500);
+            });
+        }
 
         // Add event listener for mobile devices
         document.addEventListener('touchstart', function(event) {
