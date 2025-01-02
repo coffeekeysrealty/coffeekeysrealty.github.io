@@ -40,6 +40,15 @@
             height: auto;
             margin: 0 auto;
         }
+
+        .chat-heading {
+            color: white;
+            font-family: 'MS Sans Serif', 'Microsoft Sans Serif', sans-serif;
+            font-size: 2.5rem;
+            margin: 2rem 0;
+            text-align: center;
+            font-weight: normal;
+        }
         
         .container {
             max-width: 100%;
@@ -61,6 +70,11 @@
             .container {
                 padding: 0.5rem;
             }
+
+            .chat-heading {
+                font-size: 2rem;
+                margin: 1.5rem 0;
+            }
         }
 
         @media screen and (max-width: 320px) {
@@ -72,6 +86,11 @@
                 width: 90%;
                 max-width: 200px;
             }
+
+            .chat-heading {
+                font-size: 1.75rem;
+                margin: 1rem 0;
+            }
         }
 
         img {
@@ -82,8 +101,9 @@
 </head>
 <body>
     <header class="header">
-        <img src="/api/placeholder/600/200" alt="Coffee & Keys Realty Logo" class="logo">
+        <img src="/logonew.png" alt="Coffee & Keys Realty Logo" class="logo">
     </header>
+    <h1 class="chat-heading">Let's Chat</h1>
     <div class="container">
         <!-- Chat widget will be embedded here -->
     </div>
@@ -91,24 +111,13 @@
     <!-- Freshworks Chat Widget Code -->
     <script src='//fw-cdn.com/12333017/4778044.js' chat='true'></script>
     <script>
-        // Define the widget configuration function
-        function fw_chat_widget() {
-            window.fcWidget.init({
-                token: "YOUR_TOKEN",
-                host: "https://wchat.freshchat.com"
-            });
-
-            window.fcWidget.setExternalId("john.doe1987");
-            window.fcWidget.user.setFirstName("John");
-            window.fcWidget.user.setEmail("john.doe@gmail.com");
-            window.fcWidget.user.setProperties({
-                cf_plan: "Pro",
-                cf_status: "Active"
-            });
-        }
-
-        // Call the function when the page loads
-        fw_chat_widget();
+        // Wait for the widget to load, then open it
+        window.fcWidget.on("widget:loaded", function() {
+            // Open the widget automatically after a short delay
+            setTimeout(function() {
+                window.fcWidget.open();
+            }, 1000); // 1 second delay
+        });
 
         // Add event listener for mobile devices
         document.addEventListener('touchstart', function(event) {
