@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <script>
-  window.fcSettings = {
-    token: "12333017/4778044",
-    host: "https://wchat.freshchat.com",
-    config: {
-      cssNames: {
-        widget: 'custom_fc_frame',
-        expanded: 'custom_fc_expanded'
-      }
+  window.fcWidget = {
+    init: function() {
+      window.fcWidget.user = {
+        setFirstName: function(name) {},
+        setProperties: function(props) {}
+      };
     },
-    onInit: function() {
-      console.log('Widget initialized');
-    }
+    setExternalId: function(id) {},
+    user: {
+        message: {
+            send: function(opts) {}
+        }
+    },
+    on: function(event, callback) {}
   };
-  (function(w,d,s,f) {
-    var js = d.createElement(s); js.src = f; js.async = 1;
-    d.getElementsByTagName('head')[0].appendChild(js);
-  })(window, document, 'script', '//fw-cdn.com/12333017/4778044.js');
+  
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = '//fw-cdn.com/12333017/4778044.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'freshchat-js-sdk'));
 </script>
 <head>
     <meta charset="UTF-8">
@@ -166,30 +173,24 @@
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
     if (window.fcWidget) {
-        // Initialize a unique visitor
-        window.fcWidget.init({
-            token: "12333017/4778044",
-            host: "https://wchat.freshchat.com"
-        });
-
-        // Set a random user ID for this session
-        const sessionId = 'visitor_' + Math.random().toString(36).substring(7);
-        window.fcWidget.setExternalId(sessionId);
-
         // Open the chat widget
         window.fcWidget.open();
         
         // Construct the inquiry message
         const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
-        
-        // Wait for widget to be ready
-        window.fcWidget.on("widget:loaded", function() {
-            setTimeout(() => {
-                // Send message using the proper method
-                window.fcWidget.user.message.send({
+
+        // Try the direct Freshchat method
+        window.Freshchat.sendMessage(message);
+
+        // Alternative approach using postMessage
+        window.fcWidget.on("widget:opened", function() {
+            const frameElement = document.getElementById("freshchat-frame");
+            if (frameElement) {
+                frameElement.contentWindow.postMessage({
+                    type: 'SEND_MESSAGE',
                     text: message
-                });
-            }, 1000);
+                }, '*');
+            }
         });
     } else {
         console.error('Chat widget not loaded');
