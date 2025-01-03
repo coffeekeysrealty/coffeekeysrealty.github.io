@@ -1,30 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<script>
-  window.fcWidget = {
-    init: function() {
-      window.fcWidget.user = {
-        setFirstName: function(name) {},
-        setProperties: function(props) {}
-      };
-    },
-    setExternalId: function(id) {},
-    user: {
-        message: {
-            send: function(opts) {}
-        }
-    },
-    on: function(event, callback) {}
-  };
-  
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = '//fw-cdn.com/12333017/4778044.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'freshchat-js-sdk'));
+<script
+src='//fw-cdn.com/12333017/4778044.js'
+chat='true'>
 </script>
 <head>
     <meta charset="UTF-8">
@@ -173,27 +151,21 @@
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
     if (window.fcWidget) {
-        // Open the chat widget
+        // First init the widget
+        window.fcWidget.init({
+            token: "12333017/4778044",
+            host: "https://wchat.freshchat.com"
+        });
+
+        // Open the widget
         window.fcWidget.open();
         
-        // Construct the inquiry message
         const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
-
-        // Try the direct Freshchat method
-        window.Freshchat.sendMessage(message);
-
-        // Alternative approach using postMessage
-        window.fcWidget.on("widget:opened", function() {
-            const frameElement = document.getElementById("freshchat-frame");
-            if (frameElement) {
-                frameElement.contentWindow.postMessage({
-                    type: 'SEND_MESSAGE',
-                    text: message
-                }, '*');
-            }
-        });
-    } else {
-        console.error('Chat widget not loaded');
+        
+        // Try with the fcChat object
+        if (window.fcChat) {
+            window.fcChat.message.send(message);
+        }
     }
 }
 
