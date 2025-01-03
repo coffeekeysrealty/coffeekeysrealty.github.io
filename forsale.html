@@ -149,23 +149,30 @@ chat='true'>
         let autoScrollInterval;
 
         // Function to handle property inquiry via webchat
-        function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
-            if (window.fcWidget) {
-                window.fcWidget.open();
-                
-                // Construct the inquiry message
-                const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
-                
-                // Wait for chat to initialize before sending message
+function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
+    if (typeof window.fcWidget !== 'undefined') {
+        // Make sure widget is loaded
+        window.fcWidget.on("widget:loaded", function() {
+            window.fcWidget.open();
+            
+            const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
+            
+            // Use the event-based approach
+            window.fcWidget.on("widget:opened", function() {
                 setTimeout(() => {
-                    window.fcWidget.user.sendMessage({
-                        message: message
+                    window.fcWidget.user.message.send({
+                        text: message
                     });
-                }, 1000);
-            } else {
-                console.error('Chat widget not loaded');
-            }
-        }
+                }, 500);
+            });
+        });
+        
+        // Trigger the open
+        window.fcWidget.open();
+    } else {
+        console.error('Chat widget not loaded');
+    }
+}
 
         document.addEventListener('DOMContentLoaded', async function() {
             loadProperties();
