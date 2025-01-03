@@ -151,37 +151,26 @@ chat='true'>
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
     if (window.fcWidget) {
-        // First open the chat
+        // Construct the inquiry message
+        const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
+        
+        // Open the chat widget
         window.fcWidget.open();
         
-        // Store message in a global variable so it's accessible
-        window.pendingInquiryMessage = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
-        
-        // Try multiple times to set the message as the iframe might take time to load
-        let attempts = 0;
-        const maxAttempts = 5;
-        
-        const trySetMessage = () => {
-            try {
-                const frame = document.querySelector('#fc_frame, #freshchat-frame');
-                if (frame) {
-                    // Use postMessage to communicate with the iframe
-                    frame.contentWindow.postMessage({
-                        type: 'SET_MESSAGE',
-                        message: window.pendingInquiryMessage
-                    }, '*');
+        // Wait for widget to be loaded
+        window.fcWidget.on("widget:loaded", function() {
+            // Set up event listener for widget opening
+            window.fcWidget.on("widget:opened", function() {
+                try {
+                    // Try to send the message using Freshchat's API
+                    window.fcWidget.events.emit('change:message', {
+                        text: message
+                    });
+                } catch (e) {
+                    console.log('Error setting message:', e);
                 }
-            } catch (e) {
-                console.log('Attempt ' + attempts + ' failed:', e);
-                if (attempts < maxAttempts) {
-                    attempts++;
-                    setTimeout(trySetMessage, 1000);
-                }
-            }
-        };
-
-        // Start trying after a short delay
-        setTimeout(trySetMessage, 1000);
+            });
+        });
     }
 }
 
