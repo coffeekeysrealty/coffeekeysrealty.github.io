@@ -151,30 +151,37 @@ chat='true'>
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
     if (window.fcWidget) {
-        // Open the chat
+        // First open the chat
         window.fcWidget.open();
         
-        // Construct the inquiry message
-        const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
+        // Store message in a global variable so it's accessible
+        window.pendingInquiryMessage = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
         
-        // Wait for chat to open and pre-fill the message
-        setTimeout(() => {
-            // Try to find the message input field
-            const frameElement = document.querySelector('#fc_frame');
-            if (frameElement) {
-                const chatFrame = frameElement.contentDocument || frameElement.contentWindow.document;
-                const messageInput = chatFrame.querySelector('textarea[data-testid="message-input"]') || 
-                                   chatFrame.querySelector('.fc-message-input') ||
-                                   chatFrame.querySelector('[data-testid="webchat-message-input"]');
-                
-                if (messageInput) {
-                    messageInput.value = message;
-                    // Trigger input event to ensure the UI updates
-                    const event = new Event('input', { bubbles: true });
-                    messageInput.dispatchEvent(event);
+        // Try multiple times to set the message as the iframe might take time to load
+        let attempts = 0;
+        const maxAttempts = 5;
+        
+        const trySetMessage = () => {
+            try {
+                const frame = document.querySelector('#fc_frame, #freshchat-frame');
+                if (frame) {
+                    // Use postMessage to communicate with the iframe
+                    frame.contentWindow.postMessage({
+                        type: 'SET_MESSAGE',
+                        message: window.pendingInquiryMessage
+                    }, '*');
+                }
+            } catch (e) {
+                console.log('Attempt ' + attempts + ' failed:', e);
+                if (attempts < maxAttempts) {
+                    attempts++;
+                    setTimeout(trySetMessage, 1000);
                 }
             }
-        }, 1000);
+        };
+
+        // Start trying after a short delay
+        setTimeout(trySetMessage, 1000);
     }
 }
 
