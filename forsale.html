@@ -151,21 +151,30 @@ chat='true'>
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
     if (window.fcWidget) {
-        // First init the widget
-        window.fcWidget.init({
-            token: "12333017/4778044",
-            host: "https://wchat.freshchat.com"
-        });
-
-        // Open the widget
+        // Open the chat
         window.fcWidget.open();
         
+        // Construct the inquiry message
         const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
         
-        // Try with the fcChat object
-        if (window.fcChat) {
-            window.fcChat.message.send(message);
-        }
+        // Wait for chat to open and pre-fill the message
+        setTimeout(() => {
+            // Try to find the message input field
+            const frameElement = document.querySelector('#fc_frame');
+            if (frameElement) {
+                const chatFrame = frameElement.contentDocument || frameElement.contentWindow.document;
+                const messageInput = chatFrame.querySelector('textarea[data-testid="message-input"]') || 
+                                   chatFrame.querySelector('.fc-message-input') ||
+                                   chatFrame.querySelector('[data-testid="webchat-message-input"]');
+                
+                if (messageInput) {
+                    messageInput.value = message;
+                    // Trigger input event to ensure the UI updates
+                    const event = new Event('input', { bubbles: true });
+                    messageInput.dispatchEvent(event);
+                }
+            }
+        }, 1000);
     }
 }
 
