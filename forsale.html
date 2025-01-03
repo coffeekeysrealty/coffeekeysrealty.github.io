@@ -1,8 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<script
-src='//fw-cdn.com/12333017/4778044.js'
-chat='true'>
+<script>
+  window.fcSettings = {
+    token: "12333017/4778044",
+    host: "https://wchat.freshchat.com",
+    config: {
+      cssNames: {
+        widget: 'custom_fc_frame',
+        expanded: 'custom_fc_expanded'
+      }
+    },
+    onInit: function() {
+      console.log('Widget initialized');
+    }
+  };
+  (function(w,d,s,f) {
+    var js = d.createElement(s); js.src = f; js.async = 1;
+    d.getElementsByTagName('head')[0].appendChild(js);
+  })(window, document, 'script', '//fw-cdn.com/12333017/4778044.js');
 </script>
 <head>
     <meta charset="UTF-8">
@@ -150,25 +165,32 @@ chat='true'>
 
         // Function to handle property inquiry via webchat
 function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
-    if (typeof window.fcWidget !== 'undefined') {
-        // Make sure widget is loaded
-        window.fcWidget.on("widget:loaded", function() {
-            window.fcWidget.open();
-            
-            const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
-            
-            // Use the event-based approach
-            window.fcWidget.on("widget:opened", function() {
-                setTimeout(() => {
-                    window.fcWidget.user.message.send({
-                        text: message
-                    });
-                }, 500);
-            });
+    if (window.fcWidget) {
+        // Initialize a unique visitor
+        window.fcWidget.init({
+            token: "12333017/4778044",
+            host: "https://wchat.freshchat.com"
         });
-        
-        // Trigger the open
+
+        // Set a random user ID for this session
+        const sessionId = 'visitor_' + Math.random().toString(36).substring(7);
+        window.fcWidget.setExternalId(sessionId);
+
+        // Open the chat widget
         window.fcWidget.open();
+        
+        // Construct the inquiry message
+        const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
+        
+        // Wait for widget to be ready
+        window.fcWidget.on("widget:loaded", function() {
+            setTimeout(() => {
+                // Send message using the proper method
+                window.fcWidget.user.message.send({
+                    text: message
+                });
+            }, 1000);
+        });
     } else {
         console.error('Chat widget not loaded');
     }
