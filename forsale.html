@@ -154,23 +154,17 @@ function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
         // Construct the inquiry message
         const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
         
-        // Open the chat widget
-        window.fcWidget.open();
-        
-        // Wait for widget to be loaded
-        window.fcWidget.on("widget:loaded", function() {
-            // Set up event listener for widget opening
-            window.fcWidget.on("widget:opened", function() {
-                try {
-                    // Try to send the message using Freshchat's API
-                    window.fcWidget.events.emit('change:message', {
-                        text: message
-                    });
-                } catch (e) {
-                    console.log('Error setting message:', e);
-                }
-            });
+        // Initialize the widget with the message
+        window.fcWidget.init({
+            token: "12333017/4778044",
+            host: "https://wchat.freshchat.com",
+            config: {
+                messagePreset: message
+            }
         });
+        
+        // Open the chat
+        window.fcWidget.open();
     }
 }
 
