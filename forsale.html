@@ -9,6 +9,7 @@ chat='true'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Featured Properties</title>
     <style>
+        /* Previous styles remain the same */
         body {
             margin: 0;
             padding: 0;
@@ -96,14 +97,38 @@ chat='true'>
             opacity: 0.9;
         }
 
+        .property-id {
+            color: #ffffff;
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
         .more-photos {
             color: #4a9eff;
             text-decoration: none;
             font-size: 0.95rem;
             transition: opacity 0.2s ease;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
 
         .more-photos:hover {
+            opacity: 0.8;
+        }
+
+        .inquiry-link {
+            color: #4a9eff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.2s ease;
+            display: inline-block;
+            margin-left: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .inquiry-link:hover {
             opacity: 0.8;
         }
     </style>
@@ -122,6 +147,25 @@ chat='true'>
         let currentPosition = 0;
         let properties = [];
         let autoScrollInterval;
+
+        // Function to handle property inquiry via webchat
+        function openPropertyInquiry(propertyId, propertyType, propertyLocation) {
+            if (window.fcWidget) {
+                window.fcWidget.open();
+                
+                // Construct the inquiry message
+                const message = `I want to inquire about property with ID: ${propertyId} (${propertyType}) located in ${propertyLocation}`;
+                
+                // Wait for chat to initialize before sending message
+                setTimeout(() => {
+                    window.fcWidget.user.sendMessage({
+                        message: message
+                    });
+                }, 1000);
+            } else {
+                console.error('Chat widget not loaded');
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', async function() {
             loadProperties();
@@ -182,7 +226,9 @@ chat='true'>
                     </p>
                     ${property.Feature ? `<p class="property-details">${property.Feature}</p>` : ''}
                     <a href="${property.Details || '#'}" target="_blank" class="more-photos">More photos</a>
+                    <a href="#" onclick="openPropertyInquiry('${property.PropertyID || ''}', '${property.Type || ''}', '${property.Location || ''}'); return false;" class="inquiry-link">Inquire about this property</a>
                     <div class="divider"></div>
+                    <p class="property-id">Property ID: ${property.PropertyID || 'N/A'}</p>
                 </div>
             `).join('');
         }
